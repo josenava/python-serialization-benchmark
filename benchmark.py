@@ -25,7 +25,7 @@ def test_one(func, test_object, limit=1000):
 
 
 def benchmark(type_="serialize"):
-    SUBJECTS = (marsh, rf, dantic)
+    SUBJECTS = (rf, dantic, marsh,)
 
     test_objects = {
         "serialize": (ParentTestObject(), "serialize_func"),
@@ -51,7 +51,6 @@ def benchmark(type_="serialize"):
 
     table = sorted(table, key=lambda x: x[1] + x[2])
     relative_base = min([x[1] + x[2] for x in table])
-    # print(table, relative_base)
     for row in table:
         result = (row[1] + row[2]) / relative_base
         row.append(result)

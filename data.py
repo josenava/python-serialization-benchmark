@@ -30,4 +30,4 @@ class ValidatedTestObject:
     end_date: date
 
 
-data_to_validate = {"id_": uuid4(), "start_date": "2023-12-12", "end_date": "2023-12-13"}
+data_to_validate = {"id_": str(uuid4()), "start_date": "2023-12-12", "end_date": "2023-12-13"}
