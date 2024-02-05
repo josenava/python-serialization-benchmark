@@ -1,22 +1,20 @@
 from datetime import date
+from typing import Self, Annotated
 from uuid import UUID
 
 import pydantic
-from pydantic import Field, computed_field
+from pydantic import Field, model_validator, AfterValidator
 
 name = "Pydantic"
 
 
 class SubP(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(from_attributes=True)
+
     w: int
-    x_: int
+    x: Annotated[int, AfterValidator(lambda x: x + 10)]
     y: str
     z: int
-
-    @computed_field
-    @property
-    def x(self) -> int:
-        return self.x_ + 10
 
 
 class ComplexP(pydantic.BaseModel):
@@ -33,24 +31,20 @@ class ComplexPValidator(pydantic.BaseModel):
     start_date: date
     end_date: date
 
+    @model_validator(mode="after")
+    def validate_dates(self) -> Self:
+        if self.start_date > self.end_date:
+            raise ValueError("Start date cannot be greater than end date")
+        return self
+
 
 def serialize_func(obj, many):
     if many:
         return [
-            ComplexP(
-                bar=o.bar,
-                foo=o.foo,
-                sub=SubP(w=o.sub.w, x_=o.sub.x, y=o.sub.y, z=o.sub.z),
-                subs=[SubP(w=s.w, x_=s.x, y=s.y, z=s.z) for s in o.subs]
-            ).model_dump()
+            ComplexP.model_validate(o).model_dump()
             for o in obj
         ]
-    serializer = ComplexP(
-        bar=obj.bar,
-        foo=obj.foo,
-        sub=SubP(w=obj.sub.w, x_=obj.sub.x, y=obj.sub.y, z=obj.sub.z),
-        subs=[SubP(w=s.w, x_=s.x, y=s.y, z=s.z) for s in obj.subs]
-    )
+    serializer = ComplexP.model_validate(obj)
     return serializer.model_dump()
 
 
