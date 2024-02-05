@@ -1,8 +1,6 @@
 # Python Serialization Benchmark
 
-This [repository](http://github.com/voidfiles/python-serialization-benchmark) maintains a set of benchmarks for python serialization frameworks.
-
-Currently the following projects are benchmarked.
+This is a simple benchmark to compare the performance of serialization libraries in Python. The benchmark compares the performance of the following libraries when serializing and deserializing a single object and a list of 2 objects multiple times (1000).
 
 * [Django REST Framework](http://www.django-rest-framework.org/)
 * [Marshmallow](https://marshmallow.readthedocs.io/en/latest/)
