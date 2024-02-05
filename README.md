@@ -2,31 +2,33 @@
 
 This [repository](http://github.com/voidfiles/python-serialization-benchmark) maintains a set of benchmarks for python serialization frameworks.
 
-You can find the latest benchmarks on [this page](https://voidfiles.github.io/python-serialization-benchmark/).
-
 Currently the following projects are benchmarked.
 
 * [Django REST Framework](http://www.django-rest-framework.org/)
-* [serpy](http://serpy.readthedocs.io/)
 * [Marshmallow](https://marshmallow.readthedocs.io/en/latest/)
-* [Strainer](https://github.com/voidfiles/strainer)
-* [Lollipop](http://lollipop.readthedocs.io/en/latest/)
-* [Kim](http://kim.readthedocs.io/en/latest/)
-* [Toasted Marshmallow](https://github.com/lyft/toasted-marshmallow)
-* [Colander](https://docs.pylonsproject.org/projects/colander/en/latest/)
-* [Lima](https://github.com/b6d/lima/)
-- [Serpyco](https://gitlab.com/sgrignard/serpyco)
-* [Avro](https://avro.apache.org/)
-
-Along with a baseline custom function that doesn't use a framework.
+* [Pydantic](https://docs.pydantic.dev/latest/)
 
 
-## Running the test suite
+## Running the benchmark
+1. Create a virtualenv and install the requirements
+2. execute `python benchmark.py`
 
-A Docker container is bundled with the repository which you can use to run the benchmarks. Firstly make sure you have Docker installed.
+## Results
+```
+serialize
+Library                  Many Objects 1000 times (seconds)    One Object 1000 times (seconds)    Relative
+---------------------  -----------------------------------  ---------------------------------  ----------
+Pydantic                                         0.0302958                          0.0150661     1
+Marshmallow                                      0.0565639                          0.0281031     1.86647
+Django REST Framework                            0.146527                           0.107131      5.59186
+=============
 
-1. Install Docker
 
-2. Build the container `$ docker-compose build`
+deserialize
+Library                  Many Objects 1000 times (seconds)    One Object 1000 times (seconds)    Relative
+---------------------  -----------------------------------  ---------------------------------  ----------
+Pydantic                                         0.002321                          0.00109506      1
+Marshmallow                                      0.0241871                         0.0120111      10.5965
+Django REST Framework                            0.0665438                         0.033778       29.3677
 
-3. Run the tests. `$ docker-compose run --rm tests`
+```
