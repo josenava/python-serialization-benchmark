@@ -41,13 +41,9 @@ class ComplexMValidator(marshmallow.Schema):
         )
 
 
-schema = ComplexM()
-validator = ComplexMValidator()
-
-
 def serialize_func(obj, many):
-    return schema.dump(obj, many=many)
+    return ComplexM().dump(obj, many=many)
 
 
 def deserialize_func(obj, many):
-    return validator.load(obj, many=many)
+    return ComplexMValidator().load(obj, many=many)
