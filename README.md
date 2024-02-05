@@ -16,17 +16,17 @@ This is a simple benchmark to compare the performance of serialization libraries
 serialize
 Library                  Many Objects 1000 times (seconds)    One Object 1000 times (seconds)    Relative
 ---------------------  -----------------------------------  ---------------------------------  ----------
-Pydantic                                         0.0302958                          0.0150661     1
-Marshmallow                                      0.0565639                          0.0281031     1.86647
-Django REST Framework                            0.146527                           0.107131      5.59186
+Pydantic                                         0.0305219                          0.0151608     1
+Marshmallow                                      0.135807                           0.101068      5.18523
+Django REST Framework                            0.150117                           0.106956      5.62737
 =============
 
 
 deserialize
 Library                  Many Objects 1000 times (seconds)    One Object 1000 times (seconds)    Relative
 ---------------------  -----------------------------------  ---------------------------------  ----------
-Pydantic                                         0.002321                          0.00109506      1
-Marshmallow                                      0.0241871                         0.0120111      10.5965
-Django REST Framework                            0.0665438                         0.033778       29.3677
+Pydantic                                        0.00236011                          0.001086       1
+Marshmallow                                     0.047121                            0.0318861     22.9265
+Django REST Framework                           0.0553589                           0.0341067     25.9614
 
 ```
