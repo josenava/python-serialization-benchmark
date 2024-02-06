@@ -5,6 +5,8 @@ from uuid import UUID
 import pydantic
 from pydantic import Field, model_validator, AfterValidator
 
+from data import ValidatedTestObject
+
 name = "Pydantic"
 
 
@@ -27,7 +29,7 @@ class ComplexP(pydantic.BaseModel):
 
 
 class ComplexPValidator(pydantic.BaseModel):
-    id: UUID = Field(alias="id_")
+    id: UUID = Field(validation_alias="id_")
     start_date: date
     end_date: date
 
@@ -36,6 +38,13 @@ class ComplexPValidator(pydantic.BaseModel):
         if self.start_date > self.end_date:
             raise ValueError("Start date cannot be greater than end date")
         return self
+
+    def build_dto(self) -> Self:
+        return ValidatedTestObject(
+            self.id,
+            self.start_date,
+            self.end_date,
+        )
 
 
 def serialize_func(obj, many):
@@ -50,5 +59,5 @@ def serialize_func(obj, many):
 
 def deserialize_func(obj, many):
     if many:
-        return [ComplexPValidator(**o) for o in obj]
-    return ComplexPValidator(**obj)
+        return [ComplexPValidator(**o).build_dto() for o in obj]
+    return ComplexPValidator(**obj).build_dto()
